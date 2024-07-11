@@ -13,14 +13,14 @@ Para configurar y ejecutar este proyecto localmente, sigue estos pasos:
    cd TasaCambioBCCR
 
 2. **Crea y Activa** un entorno virtual
-python -m venv venv
-source venv/bin/activate
+py -m venv venv
+source venv/Script/activate
 
 3. **Instala** las dependencias
-pip install Flask
-pip install Zeep
-pip install lxml
-pip install matplotlib
+-pip install Flask
+-pip install Zeep
+-pip install lxml
+-pip install matplotlib
 
 Con estos pasos, los desarrolladores podrán clonar tu repositorio directamente desde GitHub y seguir instrucciones detalladas para configurar y ejecutar tu proyecto Flask en sus propias máquinas.
 
