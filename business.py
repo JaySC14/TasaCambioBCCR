@@ -7,15 +7,16 @@ import os
 class BusinessLogic:
     def __init__(self):
         self.bccr = BCCR()
-
-    def consultar_tipo_cambio(self, fecha):
+    
+    def obtener_tipo_cambio(self, fecha):
+        
         try:
-            tipo_cambio = self.bccr.obtener_tipo_cambio(fecha)
-            tipo_cambio.tipo_cambio_compra = round(float(tipo_cambio.tipo_cambio_compra), 2)
-            tipo_cambio.tipo_cambio_venta = round(float(tipo_cambio.tipo_cambio_venta), 2)
-            return tipo_cambio
+            tipo_cambio_compra = round(float(self.bccr.obtener_tasa_cambio(fecha, '317')), 2)
+            tipo_cambio_venta = round(float(self.bccr.obtener_tasa_cambio(fecha, '318')), 2)
+
+            return TipoCambio(fecha, tipo_cambio_compra, tipo_cambio_venta)
         except Exception as e:
-            raise RuntimeError(f"Error al obtener los valores: {e}")
+            raise RuntimeError(f"No se pudo obtener el tipo de cambio para la fecha {fecha}: {str(e)}")
         
     def ultima_semana(self):
         hoy = datetime.today().date()
