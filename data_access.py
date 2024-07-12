@@ -1,7 +1,7 @@
 from zeep import Client
 from lxml import etree
-from entities import TipoCambio
 from zeep.exceptions import XMLSyntaxError
+from zeep.transports import Transport
 
 class BCCR:
     url = 'https://gee.bccr.fi.cr/Indicadores/Suscripciones/WS/wsindicadoreseconomicos.asmx?WSDL'
@@ -9,7 +9,7 @@ class BCCR:
     token = 'NS053AI0LL'
 
     def __init__(self):
-        self.client = Client(self.url)
+        self.client = Client(wsdl=self.url, transport=Transport(timeout=10))
 
     def obtener_tasa_cambio(self, fecha, indicador):
         try:
@@ -26,14 +26,6 @@ class BCCR:
             return tipo_cambio
         except Exception as e:
             raise RuntimeError(f"No se pudo obtener el tipo de cambio para la fecha {fecha} e indicador {indicador}: {str(e)}")
-
-    def obtener_tipo_cambio(self, fecha):
-        try:
-            tipo_cambio_compra = self.obtener_tasa_cambio(fecha, '317')
-            tipo_cambio_venta = self.obtener_tasa_cambio(fecha, '318')
-            return TipoCambio(fecha, tipo_cambio_compra, tipo_cambio_venta)
-        except Exception as e:
-            raise RuntimeError(f"No se pudo obtener el tipo de cambio para la fecha {fecha}: {str(e)}")
 
     def parsear_tipo_cambio(self, xml):
         try:
